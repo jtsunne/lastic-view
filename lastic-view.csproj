@@ -6,4 +6,8 @@
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Radzen.Blazor" Version="3.12.3" />
+    </ItemGroup>
+
 </Project>
