@@ -1,0 +1,35 @@
+@page "/indices"
+@using lastic_view.Models
+@using lastic_view.Services
+
+<h3>Indices</h3>
+@if (_indices == null)
+{
+    <div class="row">
+        <div class="col-12">
+            <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px"/>
+        </div>
+    </div>
+}
+else
+{
+    <RadzenDataGrid PageSize="20" AllowPaging="true"
+                    AllowSorting="true" Data="@_indices"
+                    FilterMode="FilterMode.Simple" AllowFiltering="true"
+                    TItem="Index" AllowColumnResize="true">
+        <Columns>
+            <RadzenDataGridColumn TItem="Index" Property="IndexName" Title="Index Name" Width="250px"/>
+        </Columns>
+    </RadzenDataGrid>
+}
+
+@code {
+    private Models.Index[] _indices;
+    private string _esUrl = "http://logs-ha-1.h.ecentria.com:9204";
+
+    protected override async void OnInitialized()
+    {
+        _indices = await IndexService.GetIndexes(_esUrl);
+        StateHasChanged();
+    }
+}

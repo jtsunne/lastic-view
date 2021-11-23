@@ -34,6 +34,7 @@ namespace lastic_view {
             services.AddScoped<ContextMenuService>();
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<NodeService>();
+            services.AddSingleton<IndexService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
