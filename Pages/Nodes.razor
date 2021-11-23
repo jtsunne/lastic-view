@@ -1,0 +1,33 @@
+@page "/Nodes"
+@using lastic_view.Models
+@using lastic_view.Services
+<h3>Nodes</h3>
+
+<RadzenDataGrid PageSize="20" AllowPaging="true"
+                        AllowSorting="true" Data="@_nodes"
+                        FilterMode="FilterMode.Simple" AllowFiltering="true"
+                        TItem="Node" AllowColumnResize="true">
+            <Columns>
+                <RadzenDataGridColumn TItem="Node" Property="Name" Title="Node Name" Width="250px"/>
+                <RadzenDataGridColumn TItem="Node" Property="IP" Title="Node IP" Width="150px"/>
+                <RadzenDataGridColumn TItem="Node" Property="CPU" Title="CPU usage" Width="80px"/>
+                <RadzenDataGridColumn TItem="Node" Property="HeapPercent" Title="Heap %" Width="80px"/>
+                <RadzenDataGridColumn TItem="Node" Property="RamPercent" Title="RAM %" Width="80px"/>
+                <RadzenDataGridColumn TItem="Node" Property="Load1m" Title="Load 1m"/>
+                <RadzenDataGridColumn TItem="Node" Property="Load5m" Title="Load 5m"/>
+                <RadzenDataGridColumn TItem="Node" Property="Load15m" Title="Load 15m"/>
+                <RadzenDataGridColumn TItem="Node" Property="Role" Title="Role"/>
+                <RadzenDataGridColumn TItem="Node" Property="Master" Title="Master"/>
+            </Columns>
+        </RadzenDataGrid>
+
+@code {
+    private Node[] _nodes;
+    private string _esUrl = "http://logs-ha-1.h.ecentria.com:9204";
+
+    protected override async void OnInitialized()
+    {
+        _nodes = await NodeService.GetNodes(_esUrl);
+        StateHasChanged();
+    }
+}
