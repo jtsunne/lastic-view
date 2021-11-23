@@ -2,24 +2,35 @@
 @using lastic_view.Models
 @using lastic_view.Services
 <h3>Nodes</h3>
-
-<RadzenDataGrid PageSize="20" AllowPaging="true"
-                        AllowSorting="true" Data="@_nodes"
-                        FilterMode="FilterMode.Simple" AllowFiltering="true"
-                        TItem="Node" AllowColumnResize="true">
-            <Columns>
-                <RadzenDataGridColumn TItem="Node" Property="Name" Title="Node Name" Width="250px"/>
-                <RadzenDataGridColumn TItem="Node" Property="IP" Title="Node IP" Width="150px"/>
-                <RadzenDataGridColumn TItem="Node" Property="CPU" Title="CPU usage" Width="80px"/>
-                <RadzenDataGridColumn TItem="Node" Property="HeapPercent" Title="Heap %" Width="80px"/>
-                <RadzenDataGridColumn TItem="Node" Property="RamPercent" Title="RAM %" Width="80px"/>
-                <RadzenDataGridColumn TItem="Node" Property="Load1m" Title="Load 1m"/>
-                <RadzenDataGridColumn TItem="Node" Property="Load5m" Title="Load 5m"/>
-                <RadzenDataGridColumn TItem="Node" Property="Load15m" Title="Load 15m"/>
-                <RadzenDataGridColumn TItem="Node" Property="Role" Title="Role"/>
-                <RadzenDataGridColumn TItem="Node" Property="Master" Title="Master"/>
-            </Columns>
-        </RadzenDataGrid>
+@if (_nodes == null)
+{
+    <div class="row">
+        <div class="col-12">
+            <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px"/>
+        </div>
+    </div>
+}
+else
+{
+    <RadzenDataGrid PageSize="20" AllowPaging="true"
+                    AllowSorting="true" Data="@_nodes"
+                    FilterMode="FilterMode.Simple" AllowFiltering="true"
+                    TItem="Node" AllowColumnResize="true"
+                    CellRender="@CellRender">
+        <Columns>
+            <RadzenDataGridColumn TItem="Node" Property="Name" Title="Node Name" Width="250px"/>
+            <RadzenDataGridColumn TItem="Node" Property="IP" Title="Node IP" Width="150px"/>
+            <RadzenDataGridColumn TItem="Node" Property="CPU" Title="CPU usage" Width="80px"/>
+            <RadzenDataGridColumn TItem="Node" Property="HeapPercent" Title="Heap %" Width="80px"/>
+            <RadzenDataGridColumn TItem="Node" Property="RamPercent" Title="RAM %" Width="80px"/>
+            <RadzenDataGridColumn TItem="Node" Property="Load1m" Title="Load 1m"/>
+            <RadzenDataGridColumn TItem="Node" Property="Load5m" Title="Load 5m"/>
+            <RadzenDataGridColumn TItem="Node" Property="Load15m" Title="Load 15m"/>
+            <RadzenDataGridColumn TItem="Node" Property="Role" Title="Role"/>
+            <RadzenDataGridColumn TItem="Node" Property="Master" Title="Master"/>
+        </Columns>
+    </RadzenDataGrid>
+}
 
 @code {
     private Node[] _nodes;
@@ -29,5 +40,56 @@
     {
         _nodes = await NodeService.GetNodes(_esUrl);
         StateHasChanged();
+    }
+
+    private void CellRender(DataGridCellRenderEventArgs<Node> obj)
+    {
+        if (obj.Column.Property == "CPU")
+        {
+            int cpuValue = Int32.Parse(obj.Data.CPU);
+            if (cpuValue < 50)
+            {
+                obj.Attributes.Add("style", "background-color: greenyellow");
+            }
+            if (cpuValue >= 50 && cpuValue < 80)
+            {
+                obj.Attributes.Add("style", "background-color: yellow");
+            }
+            if (cpuValue >= 80)
+            {
+                obj.Attributes.Add("style", "background-color: red");
+            }
+        }
+        if (obj.Column.Property == "HeapPercent")
+        {
+            int heapPercent = Int32.Parse(obj.Data.HeapPercent);
+            if (heapPercent < 50)
+            {
+                obj.Attributes.Add("style", "background-color: greenyellow");
+            }
+            if (heapPercent >= 50 && heapPercent < 80)
+            {
+                obj.Attributes.Add("style", "background-color: yellow");
+            }
+            if (heapPercent >= 80)
+            {
+                obj.Attributes.Add("style", "background-color: red");
+            }
+        }if (obj.Column.Property == "RamPercent")
+        {
+            int heapPercent = Int32.Parse(obj.Data.RamPercent);
+            if (heapPercent < 80)
+            {
+                obj.Attributes.Add("style", "background-color: greenyellow");
+            }
+            if (heapPercent >= 80 && heapPercent < 95)
+            {
+                obj.Attributes.Add("style", "background-color: yellow");
+            }
+            if (heapPercent >= 95)
+            {
+                obj.Attributes.Add("style", "background-color: red");
+            }
+        }
     }
 }
