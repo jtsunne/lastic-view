@@ -16,9 +16,17 @@ else
     <RadzenDataGrid PageSize="20" AllowPaging="true"
                     AllowSorting="true" Data="@_indices"
                     FilterMode="FilterMode.Simple" AllowFiltering="true"
-                    TItem="Index" AllowColumnResize="true">
+                    TItem="Models.Index" AllowColumnResize="true">
         <Columns>
-            <RadzenDataGridColumn TItem="Index" Property="IndexName" Title="Index Name" Width="250px"/>
+            <RadzenDataGridColumn TItem="Models.Index" Property="IndexName" Title="Index Name" Width="150px"/>
+            <RadzenDataGridColumn TItem="Models.Index" Property="Health" Title="Health" Width="40px"/>
+            <RadzenDataGridColumn TItem="Models.Index" Property="Status" Title="Status" Width="40px"/>
+            <RadzenDataGridColumn TItem="Models.Index" Property="Primary" Title="Primary" Width="40px"/>
+            <RadzenDataGridColumn TItem="Models.Index" Property="Replicas" Title="Replicas" Width="40px"/>
+            <RadzenDataGridColumn TItem="Models.Index" Property="DocumentCount" Title="Documents Count" Width="60px"/>
+            <RadzenDataGridColumn TItem="Models.Index" Property="DocumentDeleted" Title="Documents Deleted" Width="60px"/>
+            <RadzenDataGridColumn TItem="Models.Index" Property="PrimaryStoreSize" Title="Primary Store Size" Width="50px"/>
+            <RadzenDataGridColumn TItem="Models.Index" Property="StoreSize" Title="Store Size" Width="50px"/>
         </Columns>
     </RadzenDataGrid>
 }

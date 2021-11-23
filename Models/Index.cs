@@ -17,7 +17,7 @@ namespace lastic_view.Models {
         [JsonPropertyName("pri")]
         public string Primary { get; set; }
 
-        [JsonPropertyName("pri")]
+        [JsonPropertyName("rep")]
         public string Replicas { get; set; }
 
         [JsonPropertyName("docs.count")]
