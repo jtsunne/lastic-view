@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using lastic_view.Data;
+using Radzen;
 
 namespace lastic_view {
     public class Startup {
@@ -26,6 +27,10 @@ namespace lastic_view {
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddScoped<DialogService>();
+            services.AddScoped<NotificationService>();
+            services.AddScoped<TooltipService>();
+            services.AddScoped<ContextMenuService>();
             services.AddSingleton<WeatherForecastService>();
         }
 
