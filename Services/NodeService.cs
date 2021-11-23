@@ -8,8 +8,13 @@ using lastic_view.Models;
 namespace lastic_view.Services {
     public class NodeService {
         private static readonly HttpClient client = new HttpClient();
-        
-        public static async Task<Node[]> GetNodes(String url)
+        private readonly ClusterNameUrlService _urlService;
+        public NodeService(ClusterNameUrlService urlService)
+        {
+            _urlService = urlService;
+        }
+
+        public async Task<Node[]> GetNodes()
         {
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
@@ -18,11 +23,11 @@ namespace lastic_view.Services {
 
             try
             {
-                var stringTask = await client.GetStringAsync(url + "/_cat/nodes?format=json");
+                var stringTask = await client.GetStringAsync( _urlService.currentClusterUrl + "/_cat/nodes?format=json");
                 var jsonList = JsonSerializer.Deserialize<Node[]>(stringTask);
                 return jsonList;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Array.Empty<Node>();
             }

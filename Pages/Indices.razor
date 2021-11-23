@@ -1,6 +1,7 @@
 @page "/indices"
 @using lastic_view.Models
 @using lastic_view.Services
+@inject IndexService _indexService
 
 <h3>Indices</h3>
 @if (_indices == null)
@@ -25,19 +26,18 @@ else
             <RadzenDataGridColumn TItem="Models.Index" Property="Replicas" Title="Replicas" Width="40px"/>
             <RadzenDataGridColumn TItem="Models.Index" Property="DocumentCount" Title="Documents Count" Width="60px"/>
             <RadzenDataGridColumn TItem="Models.Index" Property="DocumentDeleted" Title="Documents Deleted" Width="60px"/>
-            <RadzenDataGridColumn TItem="Models.Index" Property="PrimaryStoreSize" Title="Primary Store Size" Width="50px"/>
-            <RadzenDataGridColumn TItem="Models.Index" Property="StoreSize" Title="Store Size" Width="50px"/>
+            <RadzenDataGridColumn TItem="Models.Index" Property="PrimaryStoreSize" Title="Primary Store Size" Width="50px" SortProperty="IntSize"/>
+            <RadzenDataGridColumn TItem="Models.Index" Property="StoreSize" Title="Store Size" Width="50px" SortProperty="IntSize"/>
         </Columns>
     </RadzenDataGrid>
 }
 
 @code {
     private Models.Index[] _indices;
-    private string _esUrl = "http://logs-ha-1.h.ecentria.com:9204";
 
     protected override async void OnInitialized()
     {
-        _indices = await IndexService.GetIndexes(_esUrl);
+        _indices = await _indexService.GetIndexes();
         StateHasChanged();
     }
 }

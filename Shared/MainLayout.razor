@@ -1,4 +1,8 @@
+@using lastic_view.Models
+@using lastic_view.Services
 @inherits LayoutComponentBase
+@inject ClusterNameUrlService _urlService
+@inject NavigationManager _uriHelper
 
 <RadzenDialog/>
 <RadzenNotification/>
@@ -11,8 +15,35 @@
     </div>
 
     <div class="main">
+        <div class="top-row px-4">
+            <RadzenDropDown Data="@_ClusterNameUrls" 
+                            @bind-Value="_urlService.currentClusterUrl"
+                            TValue="string" 
+                            TextProperty="ClusterName" 
+                            ValueProperty="ClusterUrl"
+                            Change="@(args => ClusterSelect(args))"
+                            
+                            />
+        </div>
+
         <div class="content px-4">
             @Body
         </div>
     </div>
 </div>
+
+@code
+{
+    private static ClusterNameUrl[] _ClusterNameUrls;
+
+    protected override void OnInitialized()
+    {
+        _ClusterNameUrls ??= _urlService.GetClusterUrls();
+    }
+
+    void ClusterSelect(object value)
+    {
+        _urlService.currentClusterUrl = value as string;
+        _uriHelper.NavigateTo(_uriHelper.Uri, forceLoad: true);
+    }
+}

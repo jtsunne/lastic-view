@@ -1,6 +1,8 @@
 @page "/Nodes"
 @using lastic_view.Models
 @using lastic_view.Services
+@inject NodeService _nodeService
+
 <h3>Nodes</h3>
 @if (_nodes == null)
 {
@@ -34,11 +36,10 @@ else
 
 @code {
     private Node[] _nodes;
-    private string _esUrl = "http://logs-ha-1.h.ecentria.com:9204";
 
     protected override async void OnInitialized()
     {
-        _nodes = await NodeService.GetNodes(_esUrl);
+        _nodes = await _nodeService.GetNodes();
         StateHasChanged();
     }
 

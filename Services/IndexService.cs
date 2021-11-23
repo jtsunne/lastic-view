@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 namespace lastic_view.Services {
     public class IndexService {
         private static readonly HttpClient client = new HttpClient();
-        
-        public static async Task<Models.Index[]> GetIndexes(String url)
+        private readonly ClusterNameUrlService _urlService;
+        public IndexService(ClusterNameUrlService urlService)
+        {
+            _urlService = urlService;
+        }
+
+        public async Task<Models.Index[]> GetIndexes()
         {
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(
@@ -17,11 +22,11 @@ namespace lastic_view.Services {
 
             try
             {
-                var stringTask = await client.GetStringAsync(url + "/_cat/indices?format=json");
+                var stringTask = await client.GetStringAsync(_urlService.currentClusterUrl + "/_cat/indices?format=json");
                 var jsonList = JsonSerializer.Deserialize<Models.Index[]>(stringTask);
                 return jsonList;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return Array.Empty<Models.Index>();
             }

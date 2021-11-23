@@ -32,6 +32,30 @@ namespace lastic_view.Models {
         [JsonPropertyName("pri.store.size")]
         public string PrimaryStoreSize { get; set; }
 
+        public double IntSize
+        {
+            get
+            {
+                if (this.PrimaryStoreSize.Contains("kb"))
+                {
+                    return double.Parse(this.PrimaryStoreSize.Replace("kb", "")) * 1024;
+                }
+                if (this.PrimaryStoreSize.Contains("mb"))
+                {
+                    return double.Parse(this.PrimaryStoreSize.Replace("mb", "")) * 1024 * 1024;
+                }
+                if (this.PrimaryStoreSize.Contains("gb"))
+                {
+                    return double.Parse(this.PrimaryStoreSize.Replace("gb", "")) * 1024 * 1024 * 1024;
+                }
+                if (this.PrimaryStoreSize.Contains("tb"))
+                {
+                    return double.Parse(this.PrimaryStoreSize.Replace("tb", "")) * 1024 * 1024 * 1024 * 1024;
+                }
+                return double.Parse(this.PrimaryStoreSize);
+            }
+        }
+
         public Index(string health, string status, string indexName, string uuId, string primary, string replicas, string documentCount, string documentDeleted, string storeSize, string primaryStoreSize)
         {
             Health = health;

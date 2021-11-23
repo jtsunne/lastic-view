@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using lastic_view.Data;
+using lastic_view.Models;
 using lastic_view.Services;
 using Radzen;
 
@@ -35,6 +36,7 @@ namespace lastic_view {
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<NodeService>();
             services.AddSingleton<IndexService>();
+            services.AddSingleton<ClusterNameUrlService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
