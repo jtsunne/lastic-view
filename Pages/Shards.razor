@@ -1,0 +1,41 @@
+@page "/shards"
+@using lastic_view.Services
+@inject ShardService _shardService
+
+<h3>Shards</h3>
+
+@if (_shards == null)
+{
+    <div class="row">
+        <div class="col-12">
+            <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate" Style="margin-bottom: 20px"/>
+        </div>
+    </div>
+}
+else
+{
+    <RadzenDataGrid PageSize="20" AllowPaging="true"
+                    AllowSorting="true" Data="@_shards"
+                    FilterMode="FilterMode.Simple" AllowFiltering="true"
+                    TItem="Models.Shard" AllowColumnResize="true">
+        <Columns>
+            <RadzenDataGridColumn TItem="Models.Shard" Property="IndexName" Title="Index Name" Width="150px"/>
+            <RadzenDataGridColumn TItem="Models.Shard" Property="ShardNumber" Title="Shard #" Width="50px"/>
+            <RadzenDataGridColumn TItem="Models.Shard" Property="PrimaryOrReploca" Title="Pri/Rep" Width="50px"/>
+            <RadzenDataGridColumn TItem="Models.Shard" Property="State" Title="State" Width="50px"/>
+            <RadzenDataGridColumn TItem="Models.Shard" Property="DocumentsCount" Title="Docs Count" Width="50px"/>
+            <RadzenDataGridColumn TItem="Models.Shard" Property="StoreSize" Title="Store Size" Width="50px" SortProperty="intSize"/>
+            <RadzenDataGridColumn TItem="Models.Shard" Property="Ip" Title="IP" Width="50px"/>
+            <RadzenDataGridColumn TItem="Models.Shard" Property="Node" Title="Node" Width="100px"/>
+        </Columns>
+    </RadzenDataGrid>
+}
+
+@code {
+    private Models.Shard[] _shards;
+    protected override async void OnInitialized()
+    {
+        _shards = await _shardService.GetShards();
+        StateHasChanged();
+    }
+}

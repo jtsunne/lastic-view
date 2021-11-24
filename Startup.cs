@@ -36,6 +36,7 @@ namespace lastic_view {
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<NodeService>();
             services.AddSingleton<IndexService>();
+            services.AddSingleton<ShardService>();
             services.AddSingleton<ClusterNameUrlService>();
         }
 
