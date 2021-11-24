@@ -52,7 +52,7 @@ namespace lastic_view.Models {
                 {
                     return double.Parse(this.PrimaryStoreSize.Replace("tb", "")) * 1024 * 1024 * 1024 * 1024;
                 }
-                return double.Parse(this.PrimaryStoreSize);
+                return double.Parse(this.StoreSize.Replace("b", ""));
             }
         }
 
